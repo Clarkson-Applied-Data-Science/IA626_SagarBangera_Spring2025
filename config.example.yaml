@@ -1,0 +1,9 @@
+db:
+  host: 'your-database-host'
+  port: 3306
+  user: 'your-username'
+  passwd: 'your-password'
+  db: 'your-database-name'
+
+tables:
+  complaints: 'nyc_complaints'
