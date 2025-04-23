@@ -48,9 +48,7 @@ By combining complaints data with weather data, the goal was to analyze how temp
 - Logged skipped rows for diagnostics.
 
 ### `test4.ipynb`
-- Performed Exploratory Data Analysis (EDA).
-- Included: distribution by hour, temperature ranges, and complaints per borough.
-- Visualized temporal and weather-based complaint patterns.
+- Loads data into phymyadmin sql.
 
 ### `test5.py` *(Main Flask App)*
 - Contains all Flask endpoints and visual rendering logic.
@@ -106,15 +104,113 @@ http://127.0.0.1:5000
 
 ---
 
-##  Sample Links
 
-- Hourly breakdown: `/getHourlyComplaints?key=123`
-- Hourly graph: `/graph`
-- Date range input: `/dateRangeInput`
-- Combined filtering: `/dateHourData?start=2015-12-01&end=2015-12-31&start_hr=18&end_hr=2&key=123`
-- Night vs Day: `/nightDayPatterns?key=123`
-- Top complaints by temperature: `/topComplaintTypesByTemp?key=123`
-- Interactive Temp Pattern: `/tempPatternInput`
+#  Flask Routes Documentation
+
+This document explains all the Flask routes exposed by the NYC 311 Complaints & Weather Analysis app.
+
+---
+
+## `/` – Home Page
+- **Type**: HTML  
+- **Description**: Welcome page with links to the JSON data and graph view.  
+- **Sample Link**: [http://127.0.0.1:5000](http://127.0.0.1:5000)
+
+---
+
+## `/getHourlyComplaints?key=123`
+- **Type**: JSON  
+- **Description**: Returns complaint counts grouped by hour and borough.  
+- **Query Param**: `key` – API key (required)  
+- **Sample Link**: [http://127.0.0.1:5000/getHourlyComplaints?key=123](http://127.0.0.1:5000/getHourlyComplaints?key=123)
+
+---
+
+## `/graph`
+- **Type**: HTML (Graph)  
+- **Description**: Bar chart showing hourly complaints for all boroughs.  
+- **Sample Link**: [http://127.0.0.1:5000/graph](http://127.0.0.1:5000/graph)
+
+---
+
+## `/hourlyInput`
+- **Type**: HTML (Form)  
+- **Description**: User input for selecting hour to visualize complaints.  
+- **Sample Link**: [http://127.0.0.1:5000/hourlyInput](http://127.0.0.1:5000/hourlyInput)
+
+---
+
+## `/hourlyData?hour=09`
+- **Type**: HTML (Graph)  
+- **Description**: Bar chart of complaints per borough at a given hour.  
+- **Query Param**: `hour` (0–23)  
+- **Sample Link**: [http://127.0.0.1:5000/hourlyData?hour=09](http://127.0.0.1:5000/hourlyData?hour=09)
+
+---
+
+## `/dateRangeInput`
+- **Type**: HTML (Form)  
+- **Description**: Form to select start and end dates for borough complaints.  
+- **Sample Link**: [http://127.0.0.1:5000/dateRangeInput](http://127.0.0.1:5000/dateRangeInput)
+
+---
+
+## `/dateRangeData?key=123&start=2015-06-01&end=2015-06-30`
+- **Type**: HTML (Graph)  
+- **Description**: Graph of total complaints per borough in selected date range.  
+- **Query Params**: `key`, `start`, `end`  
+- **Sample Link**: [http://127.0.0.1:5000/dateRangeData?key=123&start=2015-06-01&end=2015-06-30](http://127.0.0.1:5000/dateRangeData?key=123&start=2015-06-01&end=2015-06-30)
+
+---
+
+## `/dateHourInput`
+- **Type**: HTML (Form)  
+- **Description**: Form to input both date and hour ranges.  
+- **Sample Link**: [http://127.0.0.1:5000/dateHourInput](http://127.0.0.1:5000/dateHourInput)
+
+---
+
+## `/dateHourData?start=2015-03-01&end=2015-03-01&start_hr=5&end_hr=3&key=123`
+- **Type**: HTML (Graph)  
+- **Description**: Complaints over date and hour range, wraps around midnight if needed.  
+- **Query Params**: `start`, `end`, `start_hr`, `end_hr`, `key`  
+- **Sample Link**: [http://127.0.0.1:5000/dateHourData?start=2015-03-01&end=2015-03-01&start_hr=5&end_hr=3&key=123](http://127.0.0.1:5000/dateHourData?start=2015-03-01&end=2015-03-01&start_hr=5&end_hr=3&key=123)
+
+---
+
+## `/topComplaintsByTime?key=123&bucket=night`
+- **Type**: HTML (Graph)  
+- **Description**: Top 3 complaint types per borough for a specific time bucket (night/morning/afternoon/evening).  
+- **Query Params**: `key`, `bucket`  
+- **Sample Link**: [http://127.0.0.1:5000/topComplaintsByTime?key=123&bucket=night](http://127.0.0.1:5000/topComplaintsByTime?key=123&bucket=night)
+
+---
+
+## `/complaintsByTempBucket?key=123`
+- **Type**: JSON  
+- **Description**: Complaint counts grouped by temperature bucket.  
+- **Sample Link**: [http://127.0.0.1:5000/complaintsByTempBucket?key=123](http://127.0.0.1:5000/complaintsByTempBucket?key=123)
+
+---
+
+## `/topComplaintTypesByTemp?key=123`
+- **Type**: JSON  
+- **Description**: Top complaint types listed per temperature range bucket.  
+- **Sample Link**: [http://127.0.0.1:5000/topComplaintTypesByTemp?key=123](http://127.0.0.1:5000/topComplaintTypesByTemp?key=123)
+
+---
+
+## `/boroughComplaintsByTemp?key=123`
+- **Type**: JSON  
+- **Description**: Complaints per borough per temperature range.  
+- **Sample Link**: [http://127.0.0.1:5000/boroughComplaintsByTemp?key=123](http://127.0.0.1:5000/boroughComplaintsByTemp?key=123)
+
+---
+
+## `/tempComplaintVisualizer`
+- **Type**: HTML (Form + Dynamic Graph)  
+- **Description**: Interactive form to explore complaints by borough, date, hour, and temperature range, with arrow buttons to navigate.  
+- **Sample Link**: [http://127.0.0.1:5000/tempComplaintVisualizer](http://127.0.0.1:5000/tempComplaintVisualizer)
 
 ---
 
